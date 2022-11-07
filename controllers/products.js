@@ -1,4 +1,5 @@
 const asyncWrapper = require('../middleware/asyncWrapper');
+const replacer = require('../middleware/replacer');
 const productsModel = require('../models/product');
 require('dotenv').config();
 
@@ -24,17 +25,6 @@ const getProducts = asyncWrapper(async (req, res) => {
     products.sort(sort);
   } else {
     products.sort('createdAt'); // By default the products are sorted by when they're created.
-  }
-
-  // Limits, default limit is 10, and higest possible limit is 50
-  if (limit) {
-    limit = Number(limit);
-    if (limit > 50) {
-      throw Error('Limit is higher than 50');
-    }
-    products.limit(limit);
-  } else {
-    products.limit(10);
   }
 
   if (featured) {
@@ -71,35 +61,23 @@ const getProducts = asyncWrapper(async (req, res) => {
     });
   }
 
-  const result = await products;
-  res.json({ amount: result.length, result }).status(200);
-});
-
-const replacer = (match) => {
-  let returnValue;
-  switch (match) {
-    case '>':
-      returnValue = 'gt';
-      break;
-    case '=>':
-      returnValue = 'gte';
-      break;
-    case '<':
-      returnValue = 'lt';
-      break;
-    case '=<':
-      returnValue = 'lte';
-      break;
-    case '=':
-      returnValue = 'eq';
-      break;
-    case '!=':
-      returnValue = 'ne';
-      break;
+  // Limits, default limit is 10, and higest possible limit is 50
+  if (limit) {
+    limit = Number(limit);
+    if (limit > 50) {
+      throw Error('Limit is higher than 50');
+    }
+    products.limit(limit);
+  } else {
+    limit = 10;
   }
 
-  return `-$${returnValue}-`; // Returns the right mongo keyword, with '-' to be able to split easily
-};
+  const page = Number(req.query.page) || 1;
+  const skip = (page - 1) * limit;
+
+  const result = await products.limit(limit).skip(skip).limit(limit);
+  res.json({ amount: result.length, result }).status(200);
+});
 
 const getProduct = asyncWrapper(async (req, res) => {
   const { productID } = req.params;
