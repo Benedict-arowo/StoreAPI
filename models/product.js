@@ -1,5 +1,6 @@
-const mongoose = require('mongoose')
-require('dotenv').config()
+const mongoose = require('mongoose');
+require('dotenv').config();
+
 const productsModel = mongoose.model(
   'products',
   new mongoose.Schema({
@@ -9,33 +10,33 @@ const productsModel = mongoose.model(
       minLength: [4, 'Name is too short.'],
       maxLength: [32, 'Name is too long.'],
       unique: [true, 'Name already exists.'],
-      trim: true,
+      trim: true
     },
     price: {
       type: Number,
-      required: [true, 'Product price is required.'],
+      required: [true, 'Product price is required.']
     },
     company: {
       type: String,
       enum: {
-        values: ['ikea', 'liddy', 'caressa', 'marcos'],
-        message: '{VALUE} is not supported',
+        values: process.env.COMPANY_LIST,
+        message: '{VALUE} is not supported'
       },
-      required: [true, 'Product company is required.'],
+      required: [true, 'Product company is required.']
     },
     rating: {
       type: Number,
-      default: 4.5,
+      default: 4.5
     },
     featured: {
       type: Boolean,
-      default: false,
+      default: false
     },
     createdAt: {
       type: Date,
-      default: Date.now(),
-    },
+      default: Date.now()
+    }
   })
-)
+);
 
-module.exports = productsModel
+module.exports = productsModel;
