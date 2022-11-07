@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const companyList = require('../companyList');
 require('dotenv').config();
 
 const productsModel = mongoose.model(
@@ -19,7 +20,7 @@ const productsModel = mongoose.model(
     company: {
       type: String,
       enum: {
-        values: process.env.COMPANY_LIST,
+        values: companyList,
         message: '{VALUE} is not supported'
       },
       required: [true, 'Product company is required.']

@@ -1,3 +1,4 @@
+const companyList = require('../companyList');
 const asyncWrapper = require('../middleware/asyncWrapper');
 const replacer = require('../middleware/replacer');
 const productsModel = require('../models/product');
@@ -36,7 +37,7 @@ const getProducts = asyncWrapper(async (req, res) => {
 
   if (company) {
     // Checks if an invalid company has been given
-    if (!process.env.COMPANY_LIST.includes(company)) {
+    if (!companyList.includes(company)) {
       throw new Error('Company not supported.');
     }
     products.find({ company });
