@@ -9,7 +9,7 @@ const start = async () => {
       await productsModel.deleteMany({}); // Deletes all the currert data in the database
     }
     await productsModel.create(data); // Populates the database.
-    console.log('Sucessfully poupulated the database!');
+    console.log('Sucessfully pre-poupulated the database!');
     process.exit(0);
   } catch (error) {
     console.log(error);

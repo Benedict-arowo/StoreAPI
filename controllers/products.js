@@ -17,7 +17,7 @@ const getProducts = asyncWrapper(async (req, res) => {
   }
 
   if (name) {
-    name = new RegExp(`.*${name}.*`, 'i'); // Returns anything that matches the given "name", case insensitive
+    name = new RegExp(`^${name}.*`, 'i'); // Returns anything that matches the given "name", case insensitive
     products.find({ name });
   }
 
@@ -68,7 +68,6 @@ const getProducts = asyncWrapper(async (req, res) => {
     if (limit > 50) {
       throw Error('Limit is higher than 50');
     }
-    products.limit(limit);
   } else {
     limit = 10;
   }
