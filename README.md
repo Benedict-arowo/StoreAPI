@@ -1,7 +1,7 @@
 
 ## Store API
 
-##### From [freecodecamp](https://www.youtube.com/watch?v=qwfE7fSVaZM&t=9340s)  | [John Smilga](https://github.com/john-smilga/node-express-course)
+##### Project inspired by [John Smilga](https://github.com/john-smilga/node-express-course) | [freecodecamp](https://www.youtube.com/watch?v=qwfE7fSVaZM&t=9340s)
 
 #### Products Route (GET, POST)
 
